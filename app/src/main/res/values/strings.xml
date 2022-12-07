@@ -13,6 +13,11 @@
     <string name="guk_map">GukMap</string>
     <string name="orsh_map">orsh_map</string>
     <string name="exit_btn">покинуть помойку</string>
+    <string name="onWeek">на неделю</string>
+    <string name="back">Назад</string>
+    <string name="next">Дальше</string>
+    <string name="now">сейчас</string>
+    <string name="authors">Авторы</string>
     <string-array name="course_number">
         <item>1</item>
         <item>2</item>

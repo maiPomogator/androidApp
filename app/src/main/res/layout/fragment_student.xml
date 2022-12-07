@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.student.StudentFragment">
+    tools:context="ru.maipomogator.android.ui.student.StudentFragment">
 
     <TextView
         android:id="@+id/text_student"
@@ -21,20 +21,72 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.173" />
+    <TextView
+            android:layout_width="252dp"
+            android:layout_height="41dp"
+            android:id="@+id/group_name_status"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/scheduleText_prof"
+            app:layout_constraintVertical_bias="0.115"
+            android:textStyle="bold"
+            android:textSize="24sp"/>
+    <TextView
+            android:text="@string/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/backTextBtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/scheduleText_prof"
+            app:layout_constraintStart_toEndOf="@+id/group_name_status"
+            android:clickable="true"/>
+    <TextView
+            android:id="@+id/courseText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/course_name"
+            app:layout_constraintBottom_toTopOf="@+id/courseNumber"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/stud_search_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:text="@string/stud_search_btn"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_student"
-        app:layout_constraintVertical_bias="0.67"
-        tools:ignore="DuplicateClickableBoundsCheck" />
+    <TextView
+            android:id="@+id/facultyText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/fac_name"
+            app:layout_constraintBottom_toTopOf="@+id/facultyNumber"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintStart_toEndOf="@+id/courseText" />
+
+    <TextView
+            android:id="@+id/groupText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/group_name"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toTopOf="@+id/group"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_student"
+            app:layout_constraintVertical_bias="0.772" />
+    <TextView
+            android:layout_width="367dp"
+            android:layout_height="579dp"
+            android:id="@+id/scheduleText_prof"
+            android:visibility="invisible"
+            android:scrollbars="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/now_prof"
+            app:layout_constraintHorizontal_bias="0.47"
+            app:layout_constraintVertical_bias="1.0"/>
 
     <Spinner
         android:id="@+id/courseNumber"
@@ -68,41 +120,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_student"
         app:layout_constraintVertical_bias="0.498" />
-
-    <TextView
-        android:id="@+id/courseText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginBottom="10dp"
-        android:text="@string/course_name"
-        app:layout_constraintBottom_toTopOf="@+id/courseNumber"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/facultyText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:text="@string/fac_name"
-        app:layout_constraintBottom_toTopOf="@+id/facultyNumber"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.6"
-        app:layout_constraintStart_toEndOf="@+id/courseText" />
-
-    <TextView
-        android:id="@+id/groupText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/group_name"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/group"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_student"
-        app:layout_constraintVertical_bias="0.772" />
-
     <Button
         android:id="@+id/chooseBtn"
         android:layout_width="wrap_content"
@@ -116,19 +133,59 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_student"
         app:layout_constraintVertical_bias="0.67" />
-
     <Button
-        android:id="@+id/studBackBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:text="@string/back_name"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.309"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_student"
-        app:layout_constraintVertical_bias="0.67" />
+            android:text="@string/onWeek"
+            android:layout_width="104dp"
+            android:layout_height="60dp"
+            android:id="@+id/onWeek_prof"
+            app:layout_constraintStart_toEndOf="@+id/prof_next_btn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="invisible"
+            android:clickable="true"
+            android:layout_marginBottom="48dp"/>
+    <Button
+            android:text="@string/back"
+            android:layout_width="104dp"
+            android:layout_height="60dp"
+            android:id="@+id/back_prof"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="invisible"
+            android:clickable="false"
+            android:layout_marginBottom="48dp"/>
+    <Button
+            android:text="@string/now"
+            android:layout_width="104dp"
+            android:layout_height="60dp"
+            android:id="@+id/now_prof"
+            app:layout_constraintStart_toEndOf="@+id/back_prof"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="invisible"
+            android:clickable="false"
+            android:layout_marginBottom="48dp"/>
+    <Button
+            android:id="@+id/prof_next_btn"
+            android:text="@string/next"
+            android:layout_width="104dp"
+            android:layout_height="60dp"
+            app:layout_constraintStart_toEndOf="@+id/now_prof"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:visibility="invisible"
+            android:clickable="false"
+            android:layout_marginBottom="48dp"/>
+    <Button
+            android:id="@+id/stud_search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:text="@string/stud_search_btn"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_student"
+            app:layout_constraintVertical_bias="0.67"
+            tools:ignore="DuplicateClickableBoundsCheck" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
