@@ -15,12 +15,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import com.example.maybefragment.R;
 import com.example.maybefragment.databinding.FragmentStudentBinding;
 import ru.maipomogator.android.client.entities.Group;
 import ru.maipomogator.android.client.entities.Schedule;
-
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -32,7 +30,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 
-public class StudentFragment extends Fragment {
+public class StudentFragment extends Fragment implements View.OnClickListener {
     public static final String APP_PREFERENCES = "mysettings";
     private static final String SAVED_TEXT = "client_group";
     private SharedPreferences sPref;
@@ -59,7 +57,7 @@ public class StudentFragment extends Fragment {
     private Button nowBtn;
     private TextView scheduleText;
     private TextView statusText;
-    private static final String BEER_SMILE = "\uD83C\uDF7A";
+    private static final String BEER_SMILE = "\uD83E\uDDD8";
     private static final String NO_PAIRS = BEER_SMILE + " В этот день пар нет!" + BEER_SMILE;
     private static final String TIME_SMILE = "⏳";
     private static final String BOOKS_SMILE = "\uD83D\uDCDA";
@@ -74,7 +72,6 @@ public class StudentFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
         com.example.maybefragment.databinding.FragmentStudentBinding binding = FragmentStudentBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         statusText = root.findViewById(R.id.group_name_status);
@@ -111,110 +108,15 @@ public class StudentFragment extends Fragment {
             facultyText.setVisibility(View.INVISIBLE);
             searchBtn.setVisibility(View.GONE);
             searchBtn.setClickable(false);
-
             searchByGroup();
         }
-        searchBtn.setOnClickListener(v -> {
-            String faculty = chooseFac.getSelectedItem().toString();
-            String course = chooseCourse.getSelectedItem().toString();
-            groups = Group.groupRequest("SELECT * FROM public.groups WHERE group_faculty = " + faculty + " AND group_course = " + course);
-            groups.sort(Comparator.comparing(Group::getName));
-            //тут надо накидать в список по группе и курсу и пойти искать
-            List<String> spinnerArray = new ArrayList<>(); //накидываем в список группы
-            if (groups.size() != 0) {
-                chooseCourse.setVisibility(View.INVISIBLE); //блок насилия над элементами
-                chooseFac.setVisibility(View.INVISIBLE);
-                courseText.setVisibility(View.INVISIBLE);
-                facultyText.setVisibility(View.INVISIBLE);
-                chooseBtn.setVisibility(View.VISIBLE);
-                searchBtn.setVisibility(View.GONE);
-                chooseGroup.setVisibility(View.VISIBLE);
-                groupText.setVisibility(View.VISIBLE);
-                searchBtn.setClickable(false);
-                chooseBtn.setClickable(true);
-                backButton.setClickable(true);
-                backButton.setVisibility(View.VISIBLE);
-                for (Group group : groups) {
-                    spinnerArray.add(group.getName());
-                }
-            } else {
-                Toast.makeText(getContext(), "Выбранных групп не существует, укажите верные данные", Toast.LENGTH_SHORT).show();
-            }
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, spinnerArray);
-            // Определяем разметку для использования при выборе элемента
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            // Применяем адаптер к элементу spinner
-            chooseGroup.setAdapter(adapter);
-
-        });
-        chooseBtn.setOnClickListener(v -> {
-            scheduleText.setText("");
-            for (Group group : groups) {
-                if (group.getName().equals(chooseGroup.getSelectedItem().toString())) {
-                    clientGroup = group;
-                    break;
-                }
-            }
-            searchByGroup();
-        });
-        backButton.setOnClickListener(v -> {
-            chooseCourse.setVisibility(View.VISIBLE); //блок насилия над элементами
-            chooseFac.setVisibility(View.VISIBLE);
-            courseText.setVisibility(View.VISIBLE);
-            facultyText.setVisibility(View.VISIBLE);
-            chooseBtn.setVisibility(View.INVISIBLE);
-            searchBtn.setVisibility(View.VISIBLE);
-            chooseGroup.setVisibility(View.INVISIBLE);
-            groupText.setVisibility(View.INVISIBLE);
-            searchBtn.setClickable(true);
-            chooseBtn.setClickable(false);
-            backButton.setClickable(false);
-            backButton.setVisibility(View.INVISIBLE);
-            nextButton.setVisibility(View.INVISIBLE);
-            nextButton.setClickable(false);
-
-            prevButton.setVisibility(View.INVISIBLE);
-            prevButton.setClickable(false);
-
-            onWeekBtn.setVisibility(View.INVISIBLE);
-            onWeekBtn.setClickable(false);
-
-            nowBtn.setVisibility(View.INVISIBLE);
-            nowBtn.setClickable(false);
-
-            scheduleText.setVisibility(View.INVISIBLE);
-            statusText.setVisibility(View.INVISIBLE);
-        });
-        nextButton.setOnClickListener(v -> {
-            scheduleText.setText("");
-            date = date.plusDays(1);
-            searchByDate(allSchedule, date);
-        });
-        prevButton.setOnClickListener(v -> {
-            scheduleText.setText("");
-            date = date.minusDays(1);
-            searchByDate(allSchedule, date);
-        });
-        onWeekBtn.setOnClickListener(v -> {
-            scheduleText.setMovementMethod(new ScrollingMovementMethod());
-            scheduleText.setText("");
-            LocalDate firstDayOfWeek = date.minusDays(date.getDayOfWeek().getValue() - 1);
-            String localText = "";
-            for (int i = 0; i < 7; i++) {
-                final LocalDate currentDay = firstDayOfWeek.plusDays(i);
-                if (currentDay != firstDayOfWeek) {
-                    localText = scheduleText.getText().toString();
-                }
-                searchByDate(allSchedule, currentDay);
-                String answer = scheduleText.getText().toString();
-                scheduleText.setText(localText + answer);
-            }
-        });
-        nowBtn.setOnClickListener(v -> {
-            scheduleText.setText("");
-            date = LocalDate.now();
-            searchByDate(allSchedule, date);
-        });
+        searchBtn.setOnClickListener(this);
+        chooseBtn.setOnClickListener(this);
+        backButton.setOnClickListener(this);
+        nextButton.setOnClickListener(this);
+        prevButton.setOnClickListener(this);
+        onWeekBtn.setOnClickListener(this);
+        nowBtn.setOnClickListener(this);
         return root;
     }
 
@@ -273,7 +175,7 @@ public class StudentFragment extends Fragment {
                     .filter(lesson -> lesson.getLesson_date().toInstant().atZone(ZoneId.systemDefault()).toLocalDate().equals(date))
                     .sorted(Comparator.comparing(Schedule::getLesson_number)).collect(Collectors.toList());
             for (Schedule lsn : lessonsForDay) {
-                scheduleMessage(date, answer, lsn);
+                scheduleMessage(answer, lsn);
             }
             scheduleAnswer(date, date, answer);
         } else {
@@ -282,7 +184,7 @@ public class StudentFragment extends Fragment {
         }
     }
 
-    private void scheduleMessage(LocalDate firstDayOfWeek, StringBuilder answer, Schedule lsn) { // тело ответа для
+    private void scheduleMessage(StringBuilder answer, Schedule lsn) { // тело ответа для
         // расписания
         String localProfs = lsn.getProfessor();
         // if (lsn.getLesson_date().equals(firstDayOfWeek)) {
@@ -326,5 +228,113 @@ public class StudentFragment extends Fragment {
     String loadPref() {
         sPref = requireActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         return sPref.getString(SAVED_TEXT, "");
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case (R.id.stud_search_btn) -> {
+                String faculty = chooseFac.getSelectedItem().toString();
+                String course = chooseCourse.getSelectedItem().toString();
+                groups = Group.groupRequest("SELECT * FROM public.groups WHERE group_faculty = " + faculty + " AND group_course = " + course);
+                groups.sort(Comparator.comparing(Group::getName));
+                //тут надо накидать в список по группе и курсу и пойти искать
+                List<String> spinnerArray = new ArrayList<>(); //накидываем в список группы
+                if (groups.size() != 0) {
+                    chooseCourse.setVisibility(View.INVISIBLE); //блок насилия над элементами
+                    chooseFac.setVisibility(View.INVISIBLE);
+                    courseText.setVisibility(View.INVISIBLE);
+                    facultyText.setVisibility(View.INVISIBLE);
+                    chooseBtn.setVisibility(View.VISIBLE);
+                    searchBtn.setVisibility(View.GONE);
+                    chooseGroup.setVisibility(View.VISIBLE);
+                    groupText.setVisibility(View.VISIBLE);
+                    searchBtn.setClickable(false);
+                    chooseBtn.setClickable(true);
+                    backButton.setClickable(true);
+                    backButton.setVisibility(View.VISIBLE);
+                    for (Group group : groups) {
+                        spinnerArray.add(group.getName());
+                    }
+                } else {
+                    Toast.makeText(getContext(), "Выбранных групп не существует, укажите верные данные", Toast.LENGTH_SHORT).show();
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, spinnerArray);
+                // Определяем разметку для использования при выборе элемента
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Применяем адаптер к элементу spinner
+                chooseGroup.setAdapter(adapter);
+            }
+            case (R.id.chooseBtn) -> {
+                scheduleText.setText("");
+                for (Group group : groups) {
+                    if (group.getName().equals(chooseGroup.getSelectedItem().toString())) {
+                        clientGroup = group;
+                        break;
+                    }
+                }
+                searchByGroup();
+            }
+            case (R.id.backTextBtn) -> {
+                chooseCourse.setVisibility(View.VISIBLE); //блок насилия над элементами
+                chooseFac.setVisibility(View.VISIBLE);
+                courseText.setVisibility(View.VISIBLE);
+                facultyText.setVisibility(View.VISIBLE);
+                chooseBtn.setVisibility(View.INVISIBLE);
+                searchBtn.setVisibility(View.VISIBLE);
+                chooseGroup.setVisibility(View.INVISIBLE);
+                groupText.setVisibility(View.INVISIBLE);
+                searchBtn.setClickable(true);
+                chooseBtn.setClickable(false);
+                backButton.setClickable(false);
+                backButton.setVisibility(View.INVISIBLE);
+                nextButton.setVisibility(View.INVISIBLE);
+                nextButton.setClickable(false);
+
+                prevButton.setVisibility(View.INVISIBLE);
+                prevButton.setClickable(false);
+
+                onWeekBtn.setVisibility(View.INVISIBLE);
+                onWeekBtn.setClickable(false);
+
+                nowBtn.setVisibility(View.INVISIBLE);
+                nowBtn.setClickable(false);
+
+                scheduleText.setVisibility(View.INVISIBLE);
+                statusText.setVisibility(View.INVISIBLE);
+            }
+            case (R.id.prof_next_btn) -> {
+                scheduleText.setText("");
+                date = date.plusDays(1);
+                searchByDate(allSchedule, date);
+            }
+            case (R.id.back_prof) -> {
+                scheduleText.setText("");
+                date = date.minusDays(1);
+                searchByDate(allSchedule, date);
+            }
+            case (R.id.now_prof) -> {
+                scheduleText.setText("");
+                date = LocalDate.now();
+                searchByDate(allSchedule, date);
+            }
+            case (R.id.onWeek_prof) -> {
+                scheduleText.setMovementMethod(new ScrollingMovementMethod());
+                scheduleText.setText("");
+                LocalDate firstDayOfWeek = date.minusDays(date.getDayOfWeek().getValue() - 1);
+                String localText = "";
+                for (int i = 0; i < 7; i++) {
+                    final LocalDate currentDay = firstDayOfWeek.plusDays(i);
+                    if (currentDay != firstDayOfWeek) {
+                        localText = scheduleText.getText().toString();
+                    }
+                    searchByDate(allSchedule, currentDay);
+                    String answer = scheduleText.getText().toString();
+                    scheduleText.setText(localText + answer);
+                }
+            }
+        }
+
+
     }
 }

@@ -22,26 +22,27 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.173" />
     <TextView
-            android:layout_width="252dp"
-            android:layout_height="41dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:id="@+id/group_name_status"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/scheduleText_prof"
             app:layout_constraintVertical_bias="0.115"
             android:textStyle="bold"
-            android:textSize="24sp"/>
+            android:textSize="24sp"
+            app:layout_constraintEnd_toStartOf="@+id/backTextBtn"
+            app:layout_constraintHorizontal_bias="0.50"/>
     <TextView
             android:text="@string/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/backTextBtn"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/scheduleText_prof"
             app:layout_constraintStart_toEndOf="@+id/group_name_status"
-            android:clickable="true"/>
+            android:clickable="true"
+            app:layout_constraintEnd_toEndOf="parent" android:minHeight="48dp"/>
     <TextView
             android:id="@+id/courseText"
             android:layout_width="wrap_content"
@@ -76,17 +77,16 @@
             app:layout_constraintTop_toBottomOf="@+id/text_student"
             app:layout_constraintVertical_bias="0.772" />
     <TextView
-            android:layout_width="367dp"
-            android:layout_height="579dp"
+            android:layout_width="0dp"
+            android:layout_height="583dp"
             android:id="@+id/scheduleText_prof"
             android:visibility="invisible"
             android:scrollbars="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/now_prof"
             app:layout_constraintHorizontal_bias="0.47"
-            app:layout_constraintVertical_bias="1.0"/>
+    />
 
     <Spinner
         android:id="@+id/courseNumber"
