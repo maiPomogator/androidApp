@@ -15,13 +15,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-
 import com.example.maybefragment.R;
 import com.example.maybefragment.databinding.FragmentProfessorBinding;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 import ru.maipomogator.android.client.entities.Professor;
 import ru.maipomogator.android.client.entities.Schedule;
-
-import org.apache.commons.text.similarity.LevenshteinDistance;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -85,7 +83,7 @@ public class ProfessorFragment extends Fragment {
         profInfoText.setText("Введите ваше ФИО");
         profSpinner = root.findViewById(R.id.chooseProfSpin);
         searchNameBtn = root.findViewById(R.id.profChooseBtn);
-backTextBtn.setVisibility(View.INVISIBLE);
+        backTextBtn.setVisibility(View.INVISIBLE);
         EditText input = root.findViewById(R.id.editText2);
         input.setHint("Вводить сюда...");
 
@@ -102,6 +100,8 @@ backTextBtn.setVisibility(View.INVISIBLE);
             }
         }
         if (clientProfessor != null) {
+            backTextBtn.setVisibility(View.VISIBLE);
+            backTextBtn.setClickable(true);
             searchBtn.setVisibility(View.INVISIBLE);
             input.setVisibility(View.INVISIBLE);
             searchBtn.setVisibility(View.GONE);
